@@ -2,97 +2,90 @@
 from bs4 import BeautifulSoup
 
 #%%
-css_soup = BeautifulSoup('<p class="body"></p>')
-css_soup.p['class']
-
-#%%
-css_soup = BeautifulSoup('<p class="body strikeout"></p>')
-css_soup.p['class']
-
-#%%
-id_soup = BeautifulSoup('<p id="my id"></p>')
-id_soup.p['id']
-
-#%%
-rel_soup = BeautifulSoup('<p>Back to the <a rel="index">home page</a></p>')
-rel_soup.a['rel']
-
-#%%
-rel_soup.a['rel']=['index', 'contents']
-print(rel_soup.p)
-
-#%%
-no_list_soup = BeautifulSoup('<p class="body strikeout"></p>', 'html', multi_valued_attributes=None)
-no_list_soup.p['class']
-
-#%%
-no_list_soup = BeautifulSoup('<p class="body strikeout"></p>', 'html', multi_valued_attributes=None)
-
-#%%
-no_list_soup.p['class']
-
-#%%
-id_soup.p.get_attribute_list('id')
-
-#%%
-xml_soup = BeautifulSoup('<p class="body strikeout"></p>', 'xml')
-
-#%%
-xml_soup.p['class']
-
-#%%
-class_is_multi = {'*':'class'}
-xml_soup = BeautifulSoup('<p class="body strikeout"></p>', 'xml', multi_valued_attributes=class_is_multi)
-
-#%%
-id_soup.p.get_attribute_list('id')
-
-#%%
-soup = BeautifulSoup('<b class = "boldest">Extremely bold</b>')
-
-#%%
-tag = soup.b
-
-#%%
-tag.string
-
-#%%
-unicode_string = unicode(tag.string)
-unicode_string
-
-#%%
-tag.string.replace_with("No longer bold")
-
-#%%
-tag
-
-#%%
-soup.name
-
-#%%
-markup = "<b><!--Hey, buddy. Want to buy a used parser?--></b>"
-soup = BeautifulSoup(markup)
-comment = soup.b.string
-type(comment)
-
-#%%
-comment
-
-#%%
-print(soup.b.prettify())
-
-#%%
-from bs4 import CData
-cdata = CData("A CDATA block")
-comment.replace_with(cdata)
-
-#%%
-print(soup.b.prettify())
-
-#%%
-soup.b
-
-#%%
 soup = BeautifulSoup(html_doc, 'html.parser')
+
+#%%
+file = open("html_doc", 'r')
+soup = BeautifulSoup(file, 'html.parser')
+file.close
+#%%
+soup
+
+#%%
+soup.prettify()
+
+#%%
+title_tag = soup.title
+title_tag
+#%%
+title_tag.parent
+
+#%%
+title_tag.string.parent
+
+#%%
+html_tag = soup.html
+type(html_tag.parent)
+
+#%%
+print(soup.parent)
+
+#%%
+link = soup.a
+link
+
+#%%
+for parent in link.parents:
+    if parent is None:
+        print(parent)
+    else:
+        print(parent.name)
+
+#%%
+sibling_soup = BeautifulSoup("<a><b>text1</b><c>text2</c></b></a>")
+print(sibling_soup.prettify())
+
+#%%
+sibling_soup.b.next_sibling
+
+#%%
+sibling_soup.c.previous_sibling
+
+#%%
+sibling_soup.b.string
+
+#%%
+
+print(sibling_soup.b.string.next_sibling)
+
+#%%
+link = soup.a
+link
+
+#%%
+link.next_sibling
+
+#%%
+link.next_sibling.next_sibling
+
+#%%
+for sibling in soup.a.next_siblings:
+    print(repr(sibling))
+
+#%%
+last_a_tag = soup.find("a", id="link3")
+last_a_tag
+
+#%%
+last_a_tag.next_sibling
+
+#%%
+last_a_tag.next_element
+
+#%%
+last_a_tag.next_element.next_element
+
+#%%
+last_a_tag.previous_sibling
 
 #%%
